@@ -22,19 +22,41 @@
         {% endif %}
 
         <div class="score-board">
-            <div class="score-item">
-                <div class="score-value">{{ cost }}</div>
-                <div class="score-label">Tổng Chi Phí</div>
-            </div>
-            <div class="score-item">
-                <div class="score-value">{{ assigned }}/{{ total }}</div>
-                <div class="score-label">Xe Đã Phân Bổ</div>
-            </div>
-            <div class="score-item">
-                <div class="score-value">{{ (assigned/total*100) if total > 0 else 0 | round(1) }}%</div>
-                <div class="score-label">Hiệu Suất</div>
-            </div>
-        </div>
+    <div class="score-item">
+        <div class="score-value">{{ initial_cost if initial_cost else 0 }}</div>
+        <div class="score-label">💰 Chi Phí Ban Đầu</div>
+    </div>
+    <div class="score-item">
+        <div class="score-value">{{ cost }}</div>
+        <div class="score-label">🧠 Chi Phí Sau Tối Ưu</div>
+    </div>
+    <div class="score-item">
+        {% if initial_cost and cost %}
+            {% set diff = initial_cost - cost %}
+            {% if diff > 0 %}
+                <div class="score-value" style="color:#27ae60;">↓ {{ diff }}</div>
+                <div class="score-label">Tiết Kiệm</div>
+            {% elif diff < 0 %}
+                <div class="score-value" style="color:#e74c3c;">↑ {{ diff | abs }}</div>
+                <div class="score-label">Tăng Chi Phí</div>
+            {% else %}
+                <div class="score-value">=</div>
+                <div class="score-label">Không Thay Đổi</div>
+            {% endif %}
+        {% else %}
+            <div class="score-value">-</div>
+            <div class="score-label">So Sánh</div>
+        {% endif %}
+    </div>
+    <div class="score-item">
+        <div class="score-value">{{ assigned }}/{{ total }}</div>
+        <div class="score-label">Xe Đã Phân Bổ</div>
+    </div>
+    <div class="score-item">
+        <div class="score-value">{{ (assigned/total*100) if total > 0 else 0 | round(1) }}%</div>
+        <div class="score-label">Hiệu Suất</div>
+    </div>
+</div>
 
         <div class="game-area">
             <div class="control-panel">
