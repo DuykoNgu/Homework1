@@ -196,10 +196,14 @@ def index():
             message, vehicles = handler(vehicles, request.form)
 
     if not vehicles:
-        optimized_spots, cost = [], 0
+        optimized_spots, cost, initial_cost = [], 0, 0
         assigned_vehicles = set()
     else:
-        optimized_spots, cost = hill_climbing(vehicles, spots)
+        initial_spots = [ParkingSpots(s.id, SpotType(s.spot_type), s.size, s.driver_difficulty) for s in spots]
+        initialize_vehicle(vehicles, initial_spots)
+        initial_cost = calculate_cost(vehicles, initial_spots)
+        optimized_spots, optimized_cost = hill_climbing(vehicles, spots)
+        cost = optimized_cost
         assigned_vehicles = set(s.occupied for s in optimized_spots if s.occupied)
         unassigned = [v.id for v in vehicles if v.id not in assigned_vehicles]
         if unassigned:
@@ -209,6 +213,7 @@ def index():
         'index.html',
         spots=optimized_spots,
         cost=cost,
+        initial_cost=initial_cost,
         assigned=len(assigned_vehicles),
         total=len(vehicles),
         vehicles=vehicles,
