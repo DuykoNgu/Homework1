@@ -16,6 +16,7 @@
 ### 2. Cài đặt Flask
 ```bash
 python3 install flask
+||
 pip install flask
 
 cd Homework1

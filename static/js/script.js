@@ -74,12 +74,8 @@ const addVisualFeedback = (element, type) => {
         }, 1000);
     }
 };
-
-// Initialize all animations and event listeners
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(animateVehicle, 300);
-    
-    // Button click handlers
     document.querySelectorAll('.btn').forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
@@ -90,8 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 200);
         });
     });
-    
-    // Parking spot hover effects
     document.querySelectorAll('.spot').forEach(spot => {
         spot.addEventListener('mouseenter', () => {
             if (spot.classList.contains('occupied')) {
@@ -106,8 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     setTimeout(updateOptimization, 500);
     createFloatingVehicles();
-
-    // Ensure emoji icons render consistently via Twemoji CDN
     ensureTwemojiLoaded()
         .then((twemoji) => {
             if (!twemoji) return;
@@ -117,6 +109,5 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
         .catch(() => {
-            // Silently ignore if CDN fails; native emoji will render
         });
 });

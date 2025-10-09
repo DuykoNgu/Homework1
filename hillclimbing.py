@@ -52,8 +52,10 @@ def _add_vehicle(vehicles_list, form):
     vsize = (form.get("vehicle_size") or "small").lower()
     try:
         vtime = float(form.get("parking_time", 1.0))
+        if vtime <= 0:
+            return "Thời gian đỗ xe phải lớn hơn 0.", vehicles_list
     except:
-        vtime = 1.0
+        return "Thời gian đỗ xe không hợp lệ.", vehicles_list
 
     if not vid:
         return "Vui lòng nhập biển số xe.", vehicles_list
@@ -212,7 +214,5 @@ def index():
         vehicles=vehicles,
         message=message
     )
-
-
 if __name__ == "__main__":
     app.run(debug=False)
